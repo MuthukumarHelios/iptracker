@@ -1,8 +1,7 @@
 angular.module('angcontroller',[])
 .controller('maincontroller', function($scope, $http,$window) {
   
-
- 
+// simple Static data 
  
   $scope.test = "Static Data";
                         console.log("hello, controllerx");
@@ -18,8 +17,8 @@ angular.module('angcontroller',[])
                            console.log("disconnect");
                         }
 
-// before pull
-                        //connect the user for 
+ // before pull
+  //connect the user for 
 
                     $scope.connect = () => {
                         $http.get('http://ipv4.myexternalip.com/json').then(value => {
@@ -27,7 +26,7 @@ angular.module('angcontroller',[])
                         return value.data;
                           }).then(externalip => {
                               console.log(externalip)
-                          $http.post('/api',{externalip: externalip.ip}).then(value => {
+                          $http.post('/connect',{externalip: externalip.ip}).then(value => {
                              console.log("after machine ip",value.data);
                              
                             })

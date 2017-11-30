@@ -26,7 +26,7 @@ for (var k in interfaces) {
 
 
 
-router.post ('/api', (req, res) => {
+router.post ('/connect', (req, res) => {
 
 
     // split the local ip with subnet Mask 
@@ -69,7 +69,7 @@ console.log(addresses);
  router.get("/disconnect", (req, res) => {
  console.log(address[0]);
     // user.find({})
-        
+
    user.update({machineip:addresses[0]},{$set:{
     disconnected_at: new Date()
    }})
