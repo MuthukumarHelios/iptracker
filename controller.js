@@ -41,14 +41,22 @@ console.log(addresses);
 
    dbdata.localip = ip[3];
     dbdata.machineip = addresses[0];     
-        dbdata.externalip = req.body.externalip;
-    
+        dbdata.externalip = req.body.externalip;        
         user.create(dbdata).then(result => {
-            console.log(result);      
-           }).catch(er => {
-            console.log(er.message);
+            console.log("duplication",result);              
+          }).catch(er => {
+            //  used to check when he is connected
+
+              if(er.message.substring(0,6) == 'E11000'){                 
+                  user.update({machineip:addresses[0]},{$set:{
+                         connected_at: new Date()
+                       }}).then(result => {
+                           console.log('connected');
+                       }).catch(err =>console.log(err.message));
+              }            
          })
         res.json(dbdata);
+
  });
 
 
@@ -57,14 +65,14 @@ console.log(addresses);
  });
 
 
-
+// @params 
  router.get("/disconnect", (req, res) => {
  console.log(address[0]);
-    user.find({})
-
-//    user.update({machineip:addresses[0]},{$set:{
-//     disconnected_at: new Date()
-//    }})
+    // user.find({})
+        
+   user.update({machineip:addresses[0]},{$set:{
+    disconnected_at: new Date()
+   }})
     .then(result => {
        console.log("disconnect",result);
              res.json(result);

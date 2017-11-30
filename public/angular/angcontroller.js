@@ -1,5 +1,5 @@
 angular.module('angcontroller',[])
-.controller('maincontroller', function($scope, $http) {
+.controller('maincontroller', function($scope, $http,$window) {
   
 
  
@@ -9,7 +9,8 @@ angular.module('angcontroller',[])
                         $scope.disconnect = () => {
 
                             $http.get("/disconnect").then(result => {
-                                 alert("Disconnected");
+                                alert("Disconnected");
+
                             }).catch(er => {
                                 console.log(er.message);
                                 alert("please check your internet conncetivity");
@@ -20,10 +21,10 @@ angular.module('angcontroller',[])
                     $scope.connect = () => {
 
                         $http.get('http://ipv4.myexternalip.com/json').then(value => {
-                            return value.data;
+                           return value.data;
                           }).then(externalip => {
                               console.log(externalip)
-                         $http.post('/api',{externalip: externalip.ip}).then(value => {
+                          $http.post('/api',{externalip: externalip.ip}).then(value => {
                              console.log("after machine ip",value.data);
                         
                              })

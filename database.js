@@ -4,12 +4,16 @@ mongoose.Promise = global.Promise;
 
 
 var userschema = new Schema({
-     localip    : {type:String},
-     machineip  : {type:String, unique:true},
-     externalip : {type:String},    
-     connected_at : { type: Date, default: Date.now },    
-     disconnected_at: {type: Date}
-    });
+     localip          : {type:String},
+     machineip        : {type:String, unique:true},
+     externalip       : {type:String},    
+     connected_at     : {type:Date},    
+     disconnected_at  : {type: Date},
+     created_at       : { type: Date, default: Date.now }
+
+ });
+
+
 
 mongoose.connect('mongodb://localhost/eproadcast', {
     // using mongoose client to avoid promises exception

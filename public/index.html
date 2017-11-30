@@ -1,6 +1,6 @@
 <html>
     <head>
-      <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+      <link rel="stylesheet" type="text/css" href="assets/style.css">
     
     </head>
     <!--  -->
@@ -8,9 +8,10 @@
     
         <div ui-view></div>
       <h1>{{test}}</h1>
-      <input type="button" value="connect" ng-click="connect()">
-      <input type="button" value="disconnect" ng-click="disconnect()">
-      
+      <span class="align">
+      <input type="button" value="connect" class="connect" ng-click="connect()">
+      <input type="button" value="disconnect" class="disconnect" ng-click="disconnect()">
+    </span>
       <script src = "https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
           <script src = "https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.min.js"></script>
            
