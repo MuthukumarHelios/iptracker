@@ -1,0 +1,22 @@
+<html>
+    <head>
+      <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+    
+    </head>
+    <!--  -->
+    <body ng-app ="app" ng-controller = "maincontroller">
+    
+        <div ui-view></div>
+      <h1>{{test}}</h1>
+      <input type="button" value="connect" ng-click="connect()">
+      <input type="button" value="disconnect" ng-click="disconnect()">
+      
+      <script src = "https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
+          <script src = "https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.min.js"></script>
+           
+          <!-- <script src = "assets/angular.min.js"></script>
+          <script src =  "assets/angular-ui-router.min.js"></script> -->
+          <script src = "angular/angconfig.js"></script>
+             <script src = "angular/angcontroller.js"></script>
+    </body>
+    </html>
