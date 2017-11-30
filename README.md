@@ -1,5 +1,10 @@
 # iptracker
 
+node -v --> v8.1.2
+
+npm -v --> 5.0.3
+
+
 Folder Structure:
 
 Public / ==> Meant for Static Files and ui Dependencies with angular
