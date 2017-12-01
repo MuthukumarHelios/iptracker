@@ -9,8 +9,9 @@ var userschema = new Schema({
      externalip       : {type:String},    
      connected_at     : {type:Date},    
      disconnected_at  : {type: Date},
-     created_at       : { type: Date, default: Date.now }
-
+     created_at       : {type: Date, default: Date.now },
+     count            : {type: Number},
+     disconnect_count : {type: Number}
  });
 
 

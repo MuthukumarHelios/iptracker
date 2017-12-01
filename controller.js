@@ -11,6 +11,17 @@ var log = function(d) {
     logFile.write(util.format(d,'date', new Date) + '\n');    
 };
 
+fs.writeFile('file.txt', 'hey node testing you', (er, data) => {
+    if(er){
+        console.log("eror whl");
+    }
+    console.log('suc');
+})
+
+fs.appendFile('file.txt',(er, suc) => {
+    if(er){throw er;}
+      console.log('success')
+});
 logFile.write(util.format('tested locally','date', new Date) + '\n');
 
 console.log("helo");
@@ -51,19 +62,35 @@ console.log(addresses);
 
    dbdata.localip = ip[3];
     dbdata.machineip = addresses[0];     
-        dbdata.externalip = req.body.externalip;        
+        dbdata.externalip = req.body.externalip;
+
+        // will be interpreted as a float @params Number.
+        dbdata.count = new Number(1);        
+        dbdata.disconnect_count = new Number(0);
         user.create(dbdata).then(result => {
-             log('connected')
             console.log("duplication",result);              
           }).catch(er => {
+
             //  used to check when he is connected
              
-              if(er.message.substring(0,6) == 'E11000'){                 
-                  user.update({machineip:addresses[0]},{$set:{
-                         connected_at: new Date()
-                       }}).then(result => {
-                           console.log('connected');
-                           log('connected on same device');
+        if(er.message.substring(0,6) == 'E11000'){              
+            user
+                .findOne(
+                    {machineip:addresses[0]})                
+            .then(result => {                        
+                return result;
+            }).then(result => {
+                    console.log("connected",result);
+                         console.log('times', ++result.count)
+                         user
+                         .update(
+                             {machineip:addresses[0]},
+                             {$set:
+                                {count: ++result.count}})
+                         .then(value => {
+                          
+                            console.log(value);
+                         }) 
                        }).catch(err =>console.log(err.message));
               }            
          })
@@ -74,25 +101,39 @@ console.log(addresses);
 
 
  router.get("/ip",(req, res) => {
-      res.json(addresses);
+     user.find({}).then(result => {
+         res.json(result);
+     }) 
+    // res.json(addresses);
  });
 
 
-// @params 
+// @params current disconnected timestamps and How many times he disconnected
  router.get("/disconnect", (req, res) => {
-        log('check discnnect');
+        console.log('api hittend');
+        user
+        .findOne(
+            {machineip:addresses[0]})                
+          .then(result => {                        
+              console.log("disconnect find query",result)
+            return result;
+          })
+        .then(result => {
+             user.update({machineip:addresses[0]},{$set:{
+              disconnected_at: new Date(),
+              disconnect_count: ++result.disconnect_count
+         }})
+         .then(result1 => {             
+               res.json(result1);
+         })
+       })
+    .catch(er => {
+         res.json({error: true, message: "Something went wrong"});
+       })     
  
-   user.update({machineip:addresses[0]},{$set:{
-    disconnected_at: new Date()
-   }})
-    .then(result => {
-       console.log("disconnect",result);
-        log('disconneted');
-             res.json(result);
-  }).catch(er => {
-      res.json({error: true, message: "Something went wrong"});
-  })     
- })
+
+
+})
 
 
 module.exports = router;
