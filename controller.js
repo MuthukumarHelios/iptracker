@@ -1,5 +1,6 @@
 const router  = require('express').Router();
 const   {user}  = require('./database.js');
+const chalk = require('chalk');
 const util = require('util');
 const fs = require('fs');
 //to get the machine ip
@@ -24,8 +25,10 @@ fs.appendFile('file.txt',(er, suc) => {
 });
 logFile.write(util.format('tested locally','date', new Date) + '\n');
 
-console.log("helo");
-log('tested');
+
+
+
+
 
 var os = require('os');
 var interfaces = os.networkInterfaces();
@@ -47,6 +50,9 @@ for (var k in interfaces) {
 
 
 
+
+
+
 router.post ('/connect', (req, res) => {
 
 
@@ -58,7 +64,7 @@ router.post ('/connect', (req, res) => {
     //    machine ip @Params {network interfaces}
 
 
-console.log(addresses);
+console.log("if Config ip",addresses);
 
    dbdata.localip = ip[3];
     dbdata.machineip = addresses[0];     
@@ -68,28 +74,33 @@ console.log(addresses);
         dbdata.count = new Number(1);        
         dbdata.disconnect_count = new Number(0);
         user.create(dbdata).then(result => {
-            console.log("duplication",result);              
+            console.log(chalk.green('connected'))    
+            console.log("connected Count",result.count);
+            console.log("Disconnected Count",result.disconnect_count);
+                         
           }).catch(er => {
 
-            //  used to check when he is connected
+            //  used to check when he is connected with same device and maintaining the count
              
         if(er.message.substring(0,6) == 'E11000'){              
             user
                 .findOne(
                     {machineip:addresses[0]})                
             .then(result => {                        
+                
                 return result;
             }).then(result => {
-                    console.log("connected",result);
-                         console.log('times', ++result.count)
-                         user
+                console.log(chalk.green('aginconnected'))    
+                console.log("connected Count",result.count);
+                console.log("Disconnected Count",result.disconnect_count);
+                user
                          .update(
                              {machineip:addresses[0]},
                              {$set:
                                 {count: ++result.count}})
                          .then(value => {
                           
-                            console.log(value);
+                           
                          }) 
                        }).catch(err =>console.log(err.message));
               }            
@@ -104,19 +115,22 @@ console.log(addresses);
      user.find({}).then(result => {
          res.json(result);
      }) 
-    // res.json(addresses);
  });
 
 
 // @params current disconnected timestamps and How many times he disconnected
  router.get("/disconnect", (req, res) => {
-        console.log('api hittend');
-        user
+
+       
+    user
         .findOne(
             {machineip:addresses[0]})                
-          .then(result => {                        
-              console.log("disconnect find query",result)
-            return result;
+          .then(result => {         
+              
+            console.log(chalk.red('disconnected'));    
+              console.log("connected Count",result.count);
+              console.log("Disconnected Count",result.disconnect_count);
+              return result;
           })
         .then(result => {
              user.update({machineip:addresses[0]},{$set:{
@@ -127,12 +141,10 @@ console.log(addresses);
                res.json(result1);
          })
        })
-    .catch(er => {
+    // final error Handler for for above promises
+       .catch(er => {
          res.json({error: true, message: "Something went wrong"});
        })     
- 
-
-
 })
 
 

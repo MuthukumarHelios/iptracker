@@ -24,3 +24,9 @@ I made the api's call for the  Connected and disconnected buttons
 If you are Refreshing The Data will be remained using scope variable
 
 Window.onload component is used to track the status of the window close event
+
+Connected /Disconnected Count Maintained:
+
+Connected ==> How many Times the user Has Connected Check using the api's Call
+
+Disconnected ==> if my browser window is closed Assume the user the disconnected
