@@ -1,4 +1,0 @@
-hey node testing you(er, suc) => {
-    if(er){throw er;}
-      console.log('success')
-}
