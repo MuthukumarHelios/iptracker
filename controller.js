@@ -81,6 +81,9 @@ console.log("if Config ip",addresses);
         dbdata.count = new Number(1);        
         dbdata.disconnect_count = new Number(0);
         user.create(dbdata).then(result => {
+            logger.debug("connected Count",result.count)
+            logger.debug("Disconnected Count",result.disconnect_count);
+            
             console.log(chalk.green('connected'))    
             console.log("connected Count",result.count);
             console.log("Disconnected Count",result.disconnect_count);
@@ -133,7 +136,8 @@ console.log("if Config ip",addresses);
         .findOne(
             {machineip:addresses[0]})                
           .then(result => {         
-              
+            logger.debug("connected Count",result.count)
+            logger.debug("Disconnected Count",result.disconnect_count)
             console.log(chalk.red('disconnected'));    
               console.log("connected Count",result.count);
               console.log("Disconnected Count",result.disconnect_count);
