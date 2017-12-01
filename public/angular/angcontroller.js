@@ -1,29 +1,15 @@
+
 angular.module('angcontroller',[])
 .controller('maincontroller', function($scope, $http,$window) {
-  
 // simple Static data 
- 
-  $scope.test = "Static Data";
-                        console.log("hello, controllerx");
-                        $scope.disconnect = () => {
 
-                            $http.get("/disconnect").then(result => {
-                                alert("Disconnected");
 
-                            }).catch(er => {
-                                console.log(er.message);
-                                alert("please check your internet conncetivity");
-                            })
-                           console.log("disconnect");
-                        }
 
- // before pull
-  //connect the user for 
+// @object IP @Params{External ip}
 
-                    $scope.connect = () => {
-                        $http.get('http://ipv4.myexternalip.com/json').then(value => {
-                            alert("connected");   
-                        return value.data;
+                                   $http.get('http://ipv4.myexternalip.com/json').then(value => {
+
+                                   return value.data;
                           }).then(externalip => {
                               console.log(externalip)
                           $http.post('/connect',{externalip: externalip.ip}).then(value => {
@@ -36,6 +22,33 @@ angular.module('angcontroller',[])
                         })
                               console.log("coonnected");
                         
-                          }
+                              $scope.connect = () => {
+                                   console.log('connected');                               
+                            }
+
+
+// disconnect module
+          
+
+// @params {Window Component to close the window}
+window.onbeforeunload = confirmExit;
+
+  $scope.test = "Static Data";
+                        
+  
+                        function confirmExit() {
+                                               
+                       
+                        
+                            $http.get("/disconnect").then(result => {
+
+                            }).catch(er => {                               
+                            })
+                           console.log("disconnect");
+                       
+                        }
+                        
+
+
 
 });
